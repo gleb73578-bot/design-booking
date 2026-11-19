@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Запись к дизайнеру</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 { font-size: 24px; margin: 0 0 8px; }
+        .header p { opacity: 0.9; margin: 0; font-size: 14px; }
+        .content { padding: 25px; }
+        .step-title { font-weight: 600; margin-bottom: 12px; color: #333; }
+        .specialists { display: flex; flex-direction: column; gap: 10px; margin-bottom: 25px; }
+        .card {
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: 0.2s;
+        }
+        .card:hover { border-color: #667eea; }
+        .card.selected { border-color: #667eea; background: #f0f4ff; }
+        .avatar {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; font-weight: bold;
+        }
+        .slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 25px; }
+        .slot {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .slot:hover { border-color: #667eea; }
+        .slot.selected { background: #667eea; color: white; border-color: #667eea; }
+        .slot.unavailable { opacity: 0.4; cursor: not-allowed; text-decoration: line-through; }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        input:focus, textarea:focus { outline: none; border-color: #667eea; }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        button:hover { opacity: 0.9; }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .done { display: none; background: #4caf50; color: white; padding: 30px; border-radius: 12px; text-align: center; font-size: 18px; font-weight: 600; }
+        .done.show { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Запись к дизайнеру</h1>
+            <p>Шоурум «Плитка и Паркет» (Демо)</p>
+        </div>
+        <div class="content" id="formContent">
+            <div class="step-title">1. Выберите дизайнера</div>
+            <div class="specialists" id="specialists"></div>
+
+            <div class="step-title">2. Выберите время</div>
+            <div class="slots" id="slots"></div>
+
+            <div class="step-title">3. Ваши контакты</div>
+            <input id="name" placeholder="Ваше имя">
+            <input id="phone" placeholder="Телефон">
+            <textarea id="comment" placeholder="Комментарий (необязательно)" rows="2"></textarea>
+            <button id="btn" disabled>Забронировать</button>
+        </div>
+
+        <div class="done" id="done">
+            ✅ Запись подтверждена!<br>
+            <span style="font-size: 14px; font-weight: normal; margin-top: 10px; display: block;">Мы свяжемся с вами для уточнения деталей.</span>
+        </div>
+    </div>
+
+    <script>
+        const specialists = [
+            { id: 1, name: 'Анна Петрова', role: 'Дизайнер интерьера', initial: 'А' },
+            { id: 2, name: 'Михаил Сидоров', role: 'Дизайнер кухни', initial: 'М' },
+            { id: 3, name: 'Елена Козлова', role: 'Ванные комнаты', initial: 'Е' }
+        ];
+        const slots = ['10:00','11:00','12:00','14:00','15:00','16:00','17:00'];
+        const unavailable = ['12:00','16:00'];
+
+        let pickedSpecialist = null;
+        let pickedTime = null;
+
+        const specEl = document.getElementById('specialists');
+        specialists.forEach(s => {
+            const div = document.createElement('div');
+            div.className = 'card';
+            div.innerHTML = `<div class="avatar">${s.initial}</div><div><div style="font-weight:600">${s.name}</div><div style="color:#666;font-size:14px">${s.role}</div></div>`;
+            div.onclick = () => {
+                document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+                div.classList.add('selected');
+                pickedSpecialist = s.name;
+                check();
+            };
+            specEl.appendChild(div);
+        });
+
+        const slotsEl = document.getElementById('slots');
+        slots.forEach(t => {
+            const div = document.createElement('div');
+            const isOff = unavailable.includes(t);
+            div.className = 'slot' + (isOff ? ' unavailable' : '');
+            div.textContent = t;
+            if (!isOff) {
+                div.onclick = () => {
+                    document.querySelectorAll('.slot').forEach(s => s.classList.remove('selected'));
+                    div.classList.add('selected');
+                    pickedTime = t;
+                    check();
+                };
+            }
+            slotsEl.appendChild(div);
+        });
+
+        const btn = document.getElementById('btn');
+        const name = document.getElementById('name');
+        const phone = document.getElementById('phone');
+        [name, phone].forEach(el => el.addEventListener('input', check));
+
+        function check() {
+            btn.disabled = !(pickedSpecialist && pickedTime && name.value.trim() && phone.value.trim());
+        }
+
+        btn.onclick = () => {
+            document.getElementById('formContent').style.display = 'none';
+            document.getElementById('done').classList.add('show');
+        };
+    </script>
+</body>
+</html>
