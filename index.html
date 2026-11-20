@@ -3,177 +3,252 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Запись к дизайнеру</title>
+    <title>Атмосфера — шоурум интерьерных материалов</title>
     <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            min-height: 100vh;
-            padding: 20px;
+        * {
             margin: 0;
-        }
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        .header {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-        .header h1 { font-size: 24px; margin: 0 0 8px; }
-        .header p { opacity: 0.9; margin: 0; font-size: 14px; }
-        .content { padding: 25px; }
-        .step-title { font-weight: 600; margin-bottom: 12px; color: #333; }
-        .specialists { display: flex; flex-direction: column; gap: 10px; margin-bottom: 25px; }
-        .card {
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 15px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            transition: 0.2s;
-        }
-        .card:hover { border-color: #667eea; }
-        .card.selected { border-color: #667eea; background: #f0f4ff; }
-        .avatar {
-            width: 50px; height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 20px; font-weight: bold;
-        }
-        .slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 25px; }
-        .slot {
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .slot:hover { border-color: #667eea; }
-        .slot.selected { background: #667eea; color: white; border-color: #667eea; }
-        .slot.unavailable { opacity: 0.4; cursor: not-allowed; text-decoration: line-through; }
-        input, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            font-size: 16px;
+            padding: 0;
             box-sizing: border-box;
         }
-        input:focus, textarea:focus { outline: none; border-color: #667eea; }
-        button {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
         }
-        button:hover { opacity: 0.9; }
-        button:disabled { opacity: 0.5; cursor: not-allowed; }
-        .done { display: none; background: #4caf50; color: white; padding: 30px; border-radius: 12px; text-align: center; font-size: 18px; font-weight: 600; }
-        .done.show { display: block; animation: fadeIn 0.5s; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+        .hero p {
+            font-size: 20px;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        .btn {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        .section {
+            margin-bottom: 60px;
+        }
+        .section h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #333;
+            font-weight: 300;
+        }
+        .about {
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .product-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .product-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        .product-card h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+        .product-card p {
+            color: #666;
+            font-size: 15px;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .feature {
+            text-align: center;
+        }
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+        .feature h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .feature p {
+            color: #666;
+            font-size: 15px;
+        }
+        .contacts {
+            background: #f8f9fa;
+            padding: 50px 20px;
+            text-align: center;
+        }
+        .contacts h2 {
+            margin-bottom: 30px;
+        }
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .contact-item {
+            padding: 20px;
+        }
+        .contact-item h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        .contact-item p {
+            color: #666;
+            font-size: 16px;
+        }
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
+    <section class="hero">
+        <h1>АТМОСФЕРА</h1>
+        <p>Шоурум интерьерных материалов для создания уникального пространства</p>
+        <a href="booking.html" class="btn">Записаться к дизайнеру</a>
+    </section>
+
     <div class="container">
-        <div class="header">
-            <h1>🎨 Запись к дизайнеру</h1>
-            <p>Шоурум «Плитка и Паркет» (Демо)</p>
-        </div>
-        <div class="content" id="formContent">
-            <div class="step-title">1. Выберите дизайнера</div>
-            <div class="specialists" id="specialists"></div>
+        <section class="section">
+            <h2>О салоне</h2>
+            <p class="about">
+                «Атмосфера» — это больше, чем магазин материалов. Это пространство, где рождаются интерьеры мечты. 
+                Мы собрали лучшие коллекции плитки, паркета, обоев и декоративных покрытий от ведущих мировых производителей. 
+                Наши дизайнеры помогут вам создать уникальный проект, учитывая все ваши пожелания и особенности помещения.
+            </p>
+        </section>
 
-            <div class="step-title">2. Выберите время</div>
-            <div class="slots" id="slots"></div>
+        <section class="section">
+            <h2>Что мы предлагаем</h2>
+            <div class="products">
+                <div class="product-card">
+                    <div class="product-icon">🏛️</div>
+                    <h3>Плитка</h3>
+                    <p>Керамогранит, мозаика, декоративные элементы от итальянских и испанских фабрик</p>
+                </div>
+                <div class="product-card">
+                    <div class="product-icon">🪵</div>
+                    <h3>Паркет</h3>
+                    <p>Массивная доска, инженерная доска, паркетная доска из дуба, ясеня, экзотических пород</p>
+                </div>
+                <div class="product-card">
+                    <div class="product-icon">🎨</div>
+                    <h3>Обои</h3>
+                    <p>Бумажные, виниловые, флизелиновые, текстильные обои премиум-класса</p>
+                </div>
+                <div class="product-card">
+                    <div class="product-icon">✨</div>
+                    <h3>Декор</h3>
+                    <p>Декоративные покрытия, молдинги, карнизы, лепнина для завершения образа</p>
+                </div>
+            </div>
+        </section>
 
-            <div class="step-title">3. Ваши контакты</div>
-            <input id="name" placeholder="Ваше имя">
-            <input id="phone" placeholder="Телефон">
-            <textarea id="comment" placeholder="Комментарий (необязательно)" rows="2"></textarea>
-            <button id="btn" disabled>Забронировать</button>
-        </div>
-
-        <div class="done" id="done">
-            ✅ Запись подтверждена!<br>
-            <span style="font-size: 14px; font-weight: normal; margin-top: 10px; display: block;">Мы свяжемся с вами для уточнения деталей.</span>
-        </div>
+        <section class="section">
+            <h2>Почему выбирают нас</h2>
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">👨‍🎨</div>
+                    <h3>Персональный дизайнер</h3>
+                    <p>Бесплатная консультация и помощь в подборе материалов для вашего проекта</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📦</div>
+                    <h3>Образцы на месте</h3>
+                    <p>Потрогайте, рассмотрите, сравните — все материалы в наличии в шоуруме</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🖥️</div>
+                    <h3>3D-визуализация</h3>
+                    <p>Увидьте, как материалы будут выглядеть в вашем интерьере до покупки</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🚚</div>
+                    <h3>Доставка и подъём</h3>
+                    <p>Организуем доставку материалов прямо до вашей двери</p>
+                </div>
+            </div>
+        </section>
     </div>
 
-    <script>
-        const specialists = [
-            { id: 1, name: 'Анна Петрова', role: 'Дизайнер интерьера', initial: 'А' },
-            { id: 2, name: 'Михаил Сидоров', role: 'Дизайнер кухни', initial: 'М' },
-            { id: 3, name: 'Елена Козлова', role: 'Ванные комнаты', initial: 'Е' }
-        ];
-        const slots = ['10:00','11:00','12:00','14:00','15:00','16:00','17:00'];
-        const unavailable = ['12:00','16:00'];
+    <section class="contacts">
+        <h2>Контакты</h2>
+        <div class="contact-info">
+            <div class="contact-item">
+                <h3>📍 Адрес</h3>
+                <p>г. Москва, ул. Дизайнерская, д. 42<br>ТЦ «Интерьер Плаза», 2 этаж</p>
+            </div>
+            <div class="contact-item">
+                <h3>📞 Телефон</h3>
+                <p>+7 (495) 123-45-67<br>Ежедневно с 10:00 до 21:00</p>
+            </div>
+            <div class="contact-item">
+                <h3>✉️ Email</h3>
+                <p>info@atmosfera-showroom.ru<br>design@atmosfera-showroom.ru</p>
+            </div>
+        </div>
+    </section>
 
-        let pickedSpecialist = null;
-        let pickedTime = null;
-
-        const specEl = document.getElementById('specialists');
-        specialists.forEach(s => {
-            const div = document.createElement('div');
-            div.className = 'card';
-            div.innerHTML = `<div class="avatar">${s.initial}</div><div><div style="font-weight:600">${s.name}</div><div style="color:#666;font-size:14px">${s.role}</div></div>`;
-            div.onclick = () => {
-                document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
-                div.classList.add('selected');
-                pickedSpecialist = s.name;
-                check();
-            };
-            specEl.appendChild(div);
-        });
-
-        const slotsEl = document.getElementById('slots');
-        slots.forEach(t => {
-            const div = document.createElement('div');
-            const isOff = unavailable.includes(t);
-            div.className = 'slot' + (isOff ? ' unavailable' : '');
-            div.textContent = t;
-            if (!isOff) {
-                div.onclick = () => {
-                    document.querySelectorAll('.slot').forEach(s => s.classList.remove('selected'));
-                    div.classList.add('selected');
-                    pickedTime = t;
-                    check();
-                };
-            }
-            slotsEl.appendChild(div);
-        });
-
-        const btn = document.getElementById('btn');
-        const name = document.getElementById('name');
-        const phone = document.getElementById('phone');
-        [name, phone].forEach(el => el.addEventListener('input', check));
-
-        function check() {
-            btn.disabled = !(pickedSpecialist && pickedTime && name.value.trim() && phone.value.trim());
-        }
-
-        btn.onclick = () => {
-            document.getElementById('formContent').style.display = 'none';
-            document.getElementById('done').classList.add('show');
-        };
-    </script>
+    <footer>
+        <p>&copy; 2024 Шоурум «Атмосфера». Все права защищены.</p>
+    </footer>
 </body>
 </html>
